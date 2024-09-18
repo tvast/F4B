@@ -1,46 +1,62 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Configurer le Linting et le Formatage :
 
-## Available Scripts
+**ESLint** et **Prettier** sont essentiels pour maintenir un code propre.
 
-In the project directory, you can run:
+### Installe ESLint :
+```bash
+npm install eslint --save-dev
+```
 
-### `npm start`
+Puis configure-le avec :
+```bash
+npx eslint --init
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Installe Prettier :
+```bash
+npm install --save-dev prettier
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Pour une intégration fluide entre ESLint et Prettier, installe également :
+```bash
+npm install eslint-config-prettier eslint-plugin-prettier --save-dev
+```
 
-### `npm test`
+### Configure WebStorm pour utiliser ces outils :
+- Ouvre les préférences de WebStorm et cherche **Code Style**. 
+- Sous **JavaScript**, choisis **Prettier** pour formater automatiquement lors de l'enregistrement.
+- Active **ESLint** dans les préférences pour qu'il soit utilisé lors du développement.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Bibliothèques et outils recommandés :
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### React Router :
+Pour la gestion des routes dans ton application :
+```bash
+npm install react-router-dom
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Axios ou Fetch API :
+Pour les appels HTTP :
+```bash
+npm install axios
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Redux Toolkit :
+Si ton projet nécessite une gestion d'état avancée :
+```bash
+npm install @reduxjs/toolkit react-redux
+```
 
-### `npm run eject`
+### Tailwind CSS :
+Pour un stylisme rapide et moderne.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Installe Tailwind via npm :
+```bash
+npm install -D tailwindcss
+npx tailwindcss init
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Configure Tailwind avec WebStorm pour une autocomplétion optimale.
