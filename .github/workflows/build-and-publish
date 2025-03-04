@@ -1,0 +1,52 @@
+name: Build and Deploy Bundle to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and Bundle All Assets
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v3
+      
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      
+      # Install dependencies in the monorepo
+      - name: Install Dependencies
+        run: yarn install
+
+      # Build the frontend workspace (assumes a "build" script in /front)
+      - name: Build Frontend
+        run: yarn workspace front build
+
+      # Build the backend workspace (if there’s a static part; ignore if not)
+      - name: Build Backend (Optional)
+        run: yarn workspace back build || echo "No backend build script"
+
+      # Bundle outputs from both workspaces into one folder for GitHub Pages
+      - name: Bundle Outputs
+        run: |
+          mkdir -p bundle
+          # Copy frontend static assets into the bundle folder
+          cp -r front/build/* bundle/
+          # Optionally, copy backend static files or documentation if available
+          cp -r back/docs/* bundle/ || echo "No backend docs to copy"
+
+      # Deploy the bundled folder to GitHub Pages using peaceiris/actions-gh-pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./bundle
