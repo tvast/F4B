@@ -6,12 +6,14 @@
     "back"
   ],
   "version": "1.0.0",
-  "description": "a microservice to handle health check of the convertion funnel",
+  "description": "a microservice to handle health check of the conversion funnel",
   "main": "index.js",
   "author": "TOLSBLK",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently \"yarn workspace back start:dev\" \"yarn workspace front dev\""
+    "start": "pm2-runtime start ecosystem.config.js --env production",
+    "dev": "concurrently \"yarn workspace back run start:dev\" \"yarn workspace front dev\"",
+    "heroku-postbuild": "yarn install && yarn workspace front build && yarn workspace back build && mkdir -p back/public && cp -r front/dist/* back/public/"
   },
   "devDependencies": {
     "concurrently": "^7.0.0"
