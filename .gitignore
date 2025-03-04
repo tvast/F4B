@@ -26,4 +26,5 @@ Thumbs.db
 # Répertoires de configuration d'IDE/éditeurs
 .vscode/
 .idea/
-
+.yarn/*
+!.yarn/releases
