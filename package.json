@@ -16,11 +16,13 @@
     "dev": "concurrently \"yarn workspace back run start:dev\" \"yarn workspace front dev\"",
     "start": "pm2-runtime start ecosystem.config.js --env production"
   },
+  "resolutions": {
+    "@types/inquirer": "^8.1.3"
+  },
   "devDependencies": {
     "concurrently": "^7.0.0"
   },
   "dependencies": {
     "pm2": "^5.4.3"
-  },
-  "packageManager": "yarn@4.7.0"
+  }
 }
