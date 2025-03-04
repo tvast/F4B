@@ -10,11 +10,12 @@
   "main": "index.js",
   "author": "TOLSBLK",
   "license": "MIT",
-  "scripts": {
-    "start": "pm2-runtime start ecosystem.config.js --env production",
-    "dev": "concurrently \"yarn workspace back run start:dev\" \"yarn workspace front dev\"",
-    "heroku-postbuild": "yarn install && yarn workspace front build && yarn workspace back build && mkdir -p back/public && cp -r front/dist/* back/public/"
-  },
+ "scripts": {
+  "build": "yarn workspace front build && yarn workspace back build && mkdir -p back/public && cp -r front/dist/* back/public/",
+  "heroku-postbuild": "yarn build",
+  "dev": "concurrently \"yarn workspace back run start:dev\" \"yarn workspace front dev\"",
+  "start": "pm2-runtime start ecosystem.config.js --env production"
+},
   "devDependencies": {
     "concurrently": "^7.0.0"
   },
