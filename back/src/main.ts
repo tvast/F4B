@@ -1,26 +1,28 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { join } from 'path';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Configuration de Swagger
+  // Configure Swagger
   const config = new DocumentBuilder()
     .setTitle('API Documentation')
     .setDescription('Documentation de l’API de votre application')
     .setVersion('1.0')
-    .addTag('health-check')
+    .addTag('automation')
     .build();
-    app.enableCors({
-      origin: 'http://localhost:5173',
-      credentials: true, // optional if you need to allow cookies or authorization headers
-    });
+
+  // Enable CORS if required
+  app.enableCors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  });
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  // Serve static assets from the "public" folder
+
+  // Listen on port 7410
   await app.listen(7410);
 }
 bootstrap();

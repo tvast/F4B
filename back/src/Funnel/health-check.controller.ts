@@ -1,43 +1,42 @@
-import { Controller, Get, Post, Res } from '@nestjs/common';
+import { Controller, Get, Query, Res, HttpException, HttpStatus } from '@nestjs/common';
+import { AutomationService } from '../Funnel/health-check.service';
 import { Response } from 'express';
-import { HealthCheckService } from './health-check.service';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
-@ApiTags('Health Check')
-@Controller('health-check')
+@Controller()
 export class HealthCheckController {
-  constructor(private readonly healthCheckService: HealthCheckService) {}
+  constructor(private readonly automationService: AutomationService) {}
 
-  /**
-   * Test du tunnel de conversion
-   */
-  @Post('test-conversion-tunnel')
-  @ApiOperation({ summary: 'Exécute le test du tunnel de conversion avec Puppeteer.' })
-  @ApiResponse({ status: 200, description: 'Test exécuté avec succès.' })
-  async testConversionTunnel(): Promise<{ message: string }> {
-    await this.healthCheckService.testConversionTunnel();
-    return { message: 'Test du tunnel de conversion exécuté' };
+  // Frontend check endpoint:
+  // GET http://localhost:7410/health-check/frontend
+  @Get('health-check/frontend')
+  async checkFrontend() {
+    return await this.automationService.checkFrontend();
   }
 
-  /**
-   * Capture d'écran d'une URL donnée
-   */
-  @Get('screenshot')
-  @ApiOperation({ summary: 'Capture d’écran d’une URL donnée.' })
-  @ApiResponse({ status: 200, description: 'Image PNG capturée.' })
-  async takeScreenshot(@Res() res: Response) {
-    const screenshot = await this.healthCheckService.takeScreenshot('https://www.mint-energie.com/Pages/Souscription/coordonnees.aspx');
-    res.set('Content-Type', 'image/png');
-    res.send(screenshot);
+  // Conversion tunnel test endpoint:
+  // GET http://localhost:7410/automation
+  @Get('automation')
+  async testConversionTunnel() {
+    return await this.automationService.testConversionTunnelWithDomCheck();
   }
 
-  /**
-   * Vérification de l'affichage du frontend de la page de souscription.
-   */
-  @Get('frontend')
-  @ApiOperation({ summary: 'Vérifie l\'affichage du frontend de la page Souscription.' })
-  @ApiResponse({ status: 200, description: 'Résultat de la vérification du frontend.' })
-  async checkFrontend(): Promise<{ success: boolean; message: string }> {
-    return await this.healthCheckService.checkFrontend();
+  // Screenshot endpoint:
+  // GET http://localhost:7410/health-check/screenshot?url=...
+  // If no URL is provided, a default URL is used.
+  @Get('health-check/screenshot')
+  async takeScreenshot(@Query('url') url: string, @Res() res: Response) {
+    if (!url) {
+      url = 'https://www.mint-energie.com/Pages/Accueil/accueil.aspx';
+    }
+    try {
+      const screenshotBuffer = await this.automationService.takeScreenshot(url);
+      res.set({
+        'Content-Type': 'image/png',
+        'Content-Length': screenshotBuffer.length,
+      });
+      res.end(screenshotBuffer);
+    } catch (error) {
+      throw new HttpException('Failed to take screenshot', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
