@@ -6,8 +6,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const server = await NestFactory.create(AppModule);
   server.enableCors({
-    origin: 'http://localhost:5174',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: '*',
+    methods: 'GET,HEAD,PUT,POST',
   });
   
   // Assuming you have something like this for Socket.IO:

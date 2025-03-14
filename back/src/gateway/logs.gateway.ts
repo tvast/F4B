@@ -8,7 +8,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 
-@WebSocketGateway({ cors: { origin: 'http://localhost:5174' } })
+@WebSocketGateway({ cors: { origin: '*' } })
 export class LogsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server!: Server;
   private readonly logger = new Logger(LogsGateway.name);
@@ -25,8 +25,7 @@ export class LogsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     this.logger.log(`Client disconnected: ${client.id}`);
   }
 
-  // Helper method to emit logs to all connected clients
-  sendLog(message: string) {
-    this.server.emit('logs', { message });
+  sendLog(log: any): void {
+    this.server.emit('logs', log);
   }
 }

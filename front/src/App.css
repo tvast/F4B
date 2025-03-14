@@ -1,306 +1,137 @@
-/* FatButton.css */
-
-/* Custom properties for button animations */
-@property --angle-1 {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: -75deg;
-}
-
-@property --angle-2 {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: -45deg;
-}
-
-/* Root variables for global sizing and animation timing */
 :root {
-  --global--size: clamp(2rem, 4vw, 5rem);
-  --anim--hover-time: 400ms;
-  --anim--hover-ease: cubic-bezier(0.25, 1, 0.5, 1);
+  --background-color: #969292;
+  --terminal-bg: #2a2a2a;
+  --text-color: #dcdcdc;
+  --accent-purple: #8a2be2;
+  --accent-green: #0abf53;
+  --border-color: #444;
 }
 
-/* Body: simple full-screen centering */
+* {
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
 body {
   margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Inter", sans-serif;
-  background-color: #d7d7d7;
-  /* On autorise le scroll pour voir la zone des logs */
-  overflow: auto;
+  font-family: 'Menlo', monospace;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
-/* BUTTON WRAP CONTAINER */
-.button-wrap {
-  position: relative;
-  z-index: 2;
-  border-radius: 999vw;
-  background: transparent;
-  pointer-events: none;
-  transition: all var(--anim--hover-time) var(--anim--hover-ease);
-}
-
-/* BUTTON SHADOW CONTAINER */
-.button-shadow {
-  --shadow-cuttoff-fix: 2em;
-  position: absolute;
-  width: calc(100% + var(--shadow-cuttoff-fix));
-  height: calc(100% + var(--shadow-cuttoff-fix));
-  top: calc(0% - var(--shadow-cuttoff-fix) / 2);
-  left: calc(0% - var(--shadow-cuttoff-fix) / 2);
-  filter: blur(clamp(2px, 0.125em, 12px));
-  overflow: visible;
-  pointer-events: none;
-}
-
-.button-shadow::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 999vw;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
-  width: calc(100% - var(--shadow-cuttoff-fix) - 0.25em);
-  height: calc(100% - var(--shadow-cuttoff-fix) - 0.25em);
-  top: calc(var(--shadow-cuttoff-fix) - 0.5em);
-  left: calc(var(--shadow-cuttoff-fix) - 0.875em);
-  padding: 0.125em;
-  box-sizing: border-box;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  transition: all var(--anim--hover-time) var(--anim--hover-ease);
-  opacity: 1;
-}
-
-/* BUTTON BASE STYLES */
-button {
-  --border-width: clamp(1px, 0.0625em, 4px);
-  all: unset;
-  cursor: pointer;
-  position: relative;
-  pointer-events: auto;
-  z-index: 3;
-  background: linear-gradient(
-    -75deg,
-    rgba(255, 255, 255, 0.05),
-    rgba(255, 255, 255, 0.2),
-    rgba(255, 255, 255, 0.05)
-  );
-  border-radius: 999vw;
-  box-shadow: inset 0 0.125em 0.125em rgba(0, 0, 0, 0.05),
-              inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.5),
-              0 0.25em 0.125em -0.125em rgba(0, 0, 0, 0.2),
-              0 0 0.1em 0.25em inset rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(1px);
-  transition: all var(--anim--hover-time) var(--anim--hover-ease);
-}
-
-button:hover {
-  transform: scale(0.975);
-  backdrop-filter: blur(0.01em);
-  box-shadow: inset 0 0.125em 0.125em rgba(0, 0, 0, 0.05),
-              inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.5),
-              0 0.15em 0.05em -0.1em rgba(0, 0, 0, 0.25),
-              0 0 0.05em 0.1em inset rgba(255, 255, 255, 0.5);
-}
-
-/* BUTTON TEXT */
-button span {
-  position: relative;
-  display: block;
-  user-select: none;
-  font-family: "Inter", sans-serif;
-  letter-spacing: -0.05em;
-  font-weight: 500;
-  font-size: 1.5em;         /* Augmenté pour une meilleure lisibilité */
-  color: rgba(50, 50, 50, 1);
-  text-shadow: 0 0.25em 0.05em rgba(0, 0, 0, 0.1);
-  transition: all var(--anim--hover-time) var(--anim--hover-ease);
-  padding-inline: 2em;
-  padding-block: 1.25em;
-}
-
-button:hover span {
-  text-shadow: 0.025em 0.025em 0.025em rgba(0, 0, 0, 0.12);
-}
-
-/* Pseudo-element for text gradient effect */
-button span::after {
-  content: "";
-  display: block;
-  position: absolute;
-  z-index: 1;
-  width: calc(100% - var(--border-width));
-  height: calc(100% - var(--border-width));
-  top: calc(var(--border-width) / 2);
-  left: calc(var(--border-width) / 2);
-  box-sizing: border-box;
-  border-radius: 999vw;
-  overflow: clip;
-  background: linear-gradient(
-    var(--angle-2),
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.5) 40% 50%,
-    rgba(255, 255, 255, 0) 55%
-  );
-  mix-blend-mode: screen;
-  pointer-events: none;
-  background-size: 200% 200%;
-  background-position: 0 50%;
-  transition: background-position calc(var(--anim--hover-time)*1.25) var(--anim--hover-ease),
-              --angle-2 calc(var(--anim--hover-time)*1.25) var(--anim--hover-ease);
-}
-
-button:hover span::after {
-  background-position: 25% 50%;
-}
-
-button:active span::after {
-  background-position: 50% 15%;
-  --angle-2: -15deg;
-}
-
-/* BUTTON OUTLINE (default, behind status override) */
-button::after {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  border-radius: 999vw;
-  width: calc(100% + var(--border-width));
-  height: calc(100% + var(--border-width));
-  top: calc(0% - var(--border-width)/2);
-  left: calc(0% - var(--border-width)/2);
-  padding: var(--border-width);
-  box-sizing: border-box;
-  background: conic-gradient(
-    from var(--angle-1) at 50% 50%,
-    rgba(0, 0, 0, 0.5),
-    rgba(0, 0, 0, 0) 5% 40%,
-    rgba(0, 0, 0, 0.5) 50%,
-    rgba(0, 0, 0, 0) 60% 95%,
-    rgba(0, 0, 0, 0.5)
-  ),
-  linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5));
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-  transition: all var(--anim--hover-time) var(--anim--hover-ease), --angle-1 500ms ease;
-  box-shadow: inset 0 0 0 calc(var(--border-width)/2) rgba(255, 255, 255, 0.5);
-}
-
-/* STATUS BORDER OVERRIDES (via pseudo-element) */
-.button-wrap.success button::after,
-.button-wrap.error button::after {
-  background: none !important;
-  transition: none !important;
-  z-index: 10;
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 999vw;
-}
-
-.button-wrap.success button::after {
-  border: 2px solid green;
-}
-
-.button-wrap.error button::after {
-  border: 2px solid red;
-}
-
-/* LOADER SPINNER */
-.loader {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border-left-color: #09f;
-  animation: spin 1s linear infinite;
-  margin: auto;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* New CSS for backend logs container */
-.logs-container {
-  max-height: 400px; /* Adjust height as needed */
-  overflow-y: auto;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 10px;
-  padding: 1rem;
-  margin: 2rem auto;
-  width: 90%;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.logs-container ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.logs-container li {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #ccc;
-}
-/* Définition du container principal en trois colonnes */
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 1rem;
-  width: 100%;
-  padding: 2rem;
-  box-sizing: border-box;
-}
-
-/* Colonne de gauche (captures) */
-.left-column {
-  flex: 1;
-  padding: 1rem;
-}
-
-/* Colonne centrale (boutons) */
-.middle-column {
-  flex: 0 0 250px; /* Largeur fixe, à ajuster si besoin */
+.App {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.header {
+  text-align: center;
+  padding: 20px;
+}
+
+.logo {
+  width: 120px;
+  margin: 0 auto;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.controls-section {
+  text-align: center;
+}
+
+.logs-section {
+  display: flex;
+  justify-content: center;
+}
+
+.logs-display {
+  background-color: var(--terminal-bg);
+  border: 1px solid var(--border-color);
+  padding: 15px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.logs-display h3 {
+  margin-top: 0;
+  text-align: center;
+  color: var(--accent-purple);
+}
+
+.logs-list {
+  margin-top: 10px;
+}
+
+.log-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.log-item:last-child {
+  border-bottom: none;
+}
+
+.log-emoji {
+  margin-right: 8px;
+  font-size: 1.2em;
+}
+
+.log-text {
+  flex: 1;
+  word-wrap: break-word;
+}
+
+.formatted-backend-code {
+  background-color: var(--terminal-bg);
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 800px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.formatted-backend-code h1 {
+  font-family: 'Menlo', monospace;
+  color: var(--accent-purple);
+  margin-bottom: 10px;
+}
+
+.formatted-backend-code p {
+  font-family: 'Menlo', monospace;
+  color: var(--accent-green);
+  margin-bottom: 15px;
+}
+
+.react-syntax-highlighter {
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* New style for the circular meme */
+.meme-circular {
+  width: 100px;
+  height: 100px;
+  background-color: var(--accent-green);
+  border-radius: 50%;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  color: var(--terminal-bg);
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 20px auto;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
-
-/* Colonne droite (logs) */
-.right-column {
-  flex: 1;
-  padding: 1rem;
-}
-
-/* Zone des logs scrollable */
-.logs-container {
-  max-height: 400px; /* Ajustez la hauteur selon vos besoins */
-  overflow-y: auto;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Le reste de votre CSS pour les boutons "Glass" reste inchangé */
-
-/* Par exemple, le style de body pour autoriser le scroll */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Inter", sans-serif;
-  background-color: #d7d7d7;
-  overflow: auto;
-}
-
