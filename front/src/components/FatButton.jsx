@@ -1,18 +1,12 @@
 import React from 'react';
+import './FatButton.css';
 
-const FatButton = ({ text, onClick, status, loading }) => {
-  // "status" is expected to be "success", "error", or an empty string.
+const FatButton = ({ text, onClick, loading, status }) => {
   return (
-    <div
-      className={`button-wrap ${status}`}
-      style={{ display: 'inline-block' }}  // ensures container only takes up content size
-    >
+    <div className={`button-wrap ${status ? status : ''}`}>
       <button onClick={onClick}>
-        <span>
-          {loading ? <div className="loader"></div> : text}
-        </span>
+        {loading ? 'Loading...' : <span>{text}</span>}
       </button>
-      <div className="button-shadow"></div>
     </div>
   );
 };

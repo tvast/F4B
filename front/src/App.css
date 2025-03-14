@@ -29,7 +29,8 @@ body {
   justify-content: center;
   font-family: "Inter", sans-serif;
   background-color: #d7d7d7;
-  overflow: hidden;
+  /* On autorise le scroll pour voir la zone des logs */
+  overflow: auto;
 }
 
 /* BUTTON WRAP CONTAINER */
@@ -113,12 +114,12 @@ button span {
   font-family: "Inter", sans-serif;
   letter-spacing: -0.05em;
   font-weight: 500;
-  font-size: 1em;
+  font-size: 1.5em;         /* Augmenté pour une meilleure lisibilité */
   color: rgba(50, 50, 50, 1);
   text-shadow: 0 0.25em 0.05em rgba(0, 0, 0, 0.1);
   transition: all var(--anim--hover-time) var(--anim--hover-ease);
-  padding-inline: 1.5em;
-  padding-block: 0.875em;
+  padding-inline: 2em;
+  padding-block: 1.25em;
 }
 
 button:hover span {
@@ -226,9 +227,80 @@ button::after {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
-/* Increase button text size and padding for a larger button */
-button span {
-  font-size: 1.5em;         /* Increased from 1em */
-  padding-inline: 2em;       /* Increased horizontal padding */
-  padding-block: 1.25em;     /* Increased vertical padding */
+
+/* New CSS for backend logs container */
+.logs-container {
+  max-height: 400px; /* Adjust height as needed */
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 2rem auto;
+  width: 90%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.logs-container ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.logs-container li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #ccc;
+}
+/* Définition du container principal en trois colonnes */
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Colonne de gauche (captures) */
+.left-column {
+  flex: 1;
+  padding: 1rem;
+}
+
+/* Colonne centrale (boutons) */
+.middle-column {
+  flex: 0 0 250px; /* Largeur fixe, à ajuster si besoin */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Colonne droite (logs) */
+.right-column {
+  flex: 1;
+  padding: 1rem;
+}
+
+/* Zone des logs scrollable */
+.logs-container {
+  max-height: 400px; /* Ajustez la hauteur selon vos besoins */
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Le reste de votre CSS pour les boutons "Glass" reste inchangé */
+
+/* Par exemple, le style de body pour autoriser le scroll */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  background-color: #d7d7d7;
+  overflow: auto;
+}
+

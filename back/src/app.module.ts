@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
-import { HealthCheckModule } from './Funnel/health-check.module'; // Adjust path if necessary
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { CypressModule } from './cypress/cypress.module';
+import { PupetModule } from './pupetMaster/pupet.module'; // or import your pupet module if that's where PupetService is registered
+import { LogsGateway } from './gateway/logs.gateway';
+
 @Module({
-  imports: [HealthCheckModule,CypressModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [PupetModule],
+  providers: [LogsGateway],
 })
 export class AppModule {}
